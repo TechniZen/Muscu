@@ -91,7 +91,7 @@ function createInput(value, callback) {
   input.type = 'text';
   input.className = 'weight-input';
   input.value = value;
-  input.addEventListener('change', () => callback(input.value));
+  input.addEventListener('input', () => callback(input.value));
   return input;
 }
 
@@ -110,68 +110,39 @@ function renderContent() {
     return;
   }
 
-  const table = document.createElement('table');
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>Exercice</th>
-        <th>Muscles</th>
-        <th>Poids / Durée</th>
-        <th>Séries</th>
-        <th>Répétitions</th>
-        <th>Repos</th>
-      </tr>
-    </thead>
-  `;
-
-  const tbody = document.createElement('tbody');
-
   dayProg.exercises.forEach(ex => {
     const saved = (savedWeights[dayProg.day] && savedWeights[dayProg.day][ex.name]) || {};
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>${ex.name}</td>
-      <td>${ex.muscles}</td>
-    `;
 
-    const tdWeight = document.createElement('td');
-    tdWeight.appendChild(createInput(saved.weight || ex.weight, val => saveWeight(dayProg.day, ex.name, 'weight', val)));
-    tr.appendChild(tdWeight);
-
-    const tdSeries = document.createElement('td');
-    tdSeries.appendChild(createInput(saved.series || ex.series || "", val => saveWeight(dayProg.day, ex.name, 'series', val)));
-    tr.appendChild(tdSeries);
-
-    const tdReps = document.createElement('td');
-    tdReps.appendChild(createInput(saved.reps || ex.reps || "", val => saveWeight(dayProg.day, ex.name, 'reps', val)));
-    tr.appendChild(tdReps);
-
-    const tdRest = document.createElement('td');
-    tdRest.textContent = ex.rest || "-";
-    tr.appendChild(tdRest);
-
-    tbody.appendChild(tr);
-
-    // Mobile version
     const card = document.createElement('div');
     card.className = 'exercise-card';
-    card.innerHTML = `
-      <div><label>Exercice :</label> ${ex.name}</div>
-      <div><label>Muscles :</label> ${ex.muscles}</div>
-    `;
+
+    const nameDiv = document.createElement('div');
+    nameDiv.innerHTML = `<label>Exercice :</label> ${ex.name}`;
+    card.appendChild(nameDiv);
+
+    const musclesDiv = document.createElement('div');
+    musclesDiv.innerHTML = `<label>Muscles :</label> ${ex.muscles}`;
+    card.appendChild(musclesDiv);
+
     const weightDiv = document.createElement('div');
-    weightDiv.appendChild(document.createElement('label')).textContent = "Poids / Durée :";
+    const weightLabel = document.createElement('label');
+    weightLabel.textContent = "Poids / Durée :";
+    weightDiv.appendChild(weightLabel);
     weightDiv.appendChild(createInput(saved.weight || ex.weight, val => saveWeight(dayProg.day, ex.name, 'weight', val)));
     card.appendChild(weightDiv);
 
     const seriesDiv = document.createElement('div');
-    seriesDiv.appendChild(document.createElement('label')).textContent = "Séries :";
-    seriesDiv.appendChild(createInput(saved.series || ex.series || "", val => saveWeight(dayProg.day, ex.name, 'series', val)));
+    const seriesLabel = document.createElement('label');
+    seriesLabel.textContent = "Séries :";
+    seriesDiv.appendChild(seriesLabel);
+    seriesDiv.appendChild(createInput(saved.series || ex.series, val => saveWeight(dayProg.day, ex.name, 'series', val)));
     card.appendChild(seriesDiv);
 
     const repsDiv = document.createElement('div');
-    repsDiv.appendChild(document.createElement('label')).textContent = "Répétitions :";
-    repsDiv.appendChild(createInput(saved.reps || ex.reps || "", val => saveWeight(dayProg.day, ex.name, 'reps', val)));
+    const repsLabel = document.createElement('label');
+    repsLabel.textContent = "Répétitions :";
+    repsDiv.appendChild(repsLabel);
+    repsDiv.appendChild(createInput(saved.reps || ex.reps, val => saveWeight(dayProg.day, ex.name, 'reps', val)));
     card.appendChild(repsDiv);
 
     const restDiv = document.createElement('div');
@@ -180,9 +151,6 @@ function renderContent() {
 
     contentDiv.appendChild(card);
   });
-
-  table.appendChild(tbody);
-  contentDiv.appendChild(table);
 }
 
 renderTabs();

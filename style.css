@@ -1,104 +1,113 @@
+:root {
+  --primary: #2b7cff;
+  --bg: #f9f9f9;
+  --card-bg: #ffffff;
+  --text: #222;
+  --muted: #777;
+  --border: #ddd;
+  --input-bg: #f0f0f0;
+  --radius: 10px;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 0 15px;
-  background: #f9f9f9;
-  color: #222;
+  font-family: 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 16px;
 }
+
+/* Titre principal */
 h1 {
+  font-size: 24px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
+
+/* Onglets des jours */
 .tabs {
   display: flex;
-  gap: 5px;
-  margin-bottom: 20px;
   overflow-x: auto;
+  gap: 8px;
+  margin-bottom: 20px;
   padding-bottom: 5px;
 }
+
 .tab {
   flex: 0 0 auto;
-  padding: 10px 20px;
-  background: #ddd;
-  border-radius: 25px;
-  cursor: pointer;
-  user-select: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  padding: 10px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
   white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
+
 .tab.active {
-  background: #4285f4;
+  background: var(--primary);
   color: white;
+  border-color: var(--primary);
 }
+
+/* Contenu principal */
 .content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-h2 {
-  margin-top: 0;
-  margin-bottom: 15px;
+
+/* Cartes d'exercice */
+.exercise-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+
+.exercise-card > div {
+  margin-bottom: 12px;
+  font-size: 15px;
 }
-th, td {
-  padding: 8px 12px;
-  border-bottom: 1px solid #ccc;
-  text-align: left;
-  vertical-align: middle;
+
+.exercise-card label {
+  font-weight: 600;
+  color: #000;
+  display: block;
+  margin-bottom: 4px;
 }
-th {
-  background: #f0f0f0;
-}
+
+/* Champs de saisie */
 input.weight-input {
-  width: 90px;
-  padding: 6px 8px;
+  width: 100%;
+  padding: 10px 12px;
   font-size: 16px;
-  border: 1px solid #aaa;
-  border-radius: 4px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-sizing: border-box;
+  transition: border-color 0.2s, background-color 0.2s;
 }
-@media (max-width: 600px) {
-  body {
-    margin: 10px;
-    padding: 0 10px;
-  }
-  .tabs {
-    gap: 10px;
-    padding-bottom: 10px;
-  }
-  .tab {
-    padding: 12px 24px;
-    font-size: 16px;
-  }
-  table {
-    display: none;
-  }
+
+input.weight-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: white;
+}
+
+/* Désactivation du tableau desktop */
+table {
+  display: none;
+}
+
+/* Responsive large */
+@media (min-width: 700px) {
   .exercise-card {
-    background: #f7f7f7;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  }
-  .exercise-card > div {
-    margin-bottom: 8px;
-    font-size: 16px;
-  }
-  .exercise-card label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 4px;
-  }
-  input.weight-input {
-    width: 100%;
-    max-width: none;
-    font-size: 18px;
-    padding: 10px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
