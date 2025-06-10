@@ -99,6 +99,10 @@ body.dark input.weight-input {
   border: 1px solid #555;
 }
 
+body.dark .exercise-card label {
+  color: #fff;
+}
+
 
 
 /* Onglets des jours */
