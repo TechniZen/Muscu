@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Programme Muscu - Mobile Friendly</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background: #f9f9f9;
+    color: #222;
+  }
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+  .tab {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    background: #ddd;
+    border-radius: 25px;
+    cursor: pointer;
+    user-select: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    white-space: nowrap;
+  }
+  .tab.active {
+    background: #4285f4;
+    color: white;
+  }
+  .content {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+  h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+  }
+  /* Table for desktop */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    vertical-align: middle;
+  }
+  th {
+    background: #f0f0f0;
+  }
+  input.weight-input {
+    width: 90px;
+    padding: 6px 8px;
+    font-size: 16px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 600px) {
+    body {
+      margin: 10px;
+      padding: 0 10px;
+    }
+    .tabs {
+      gap: 10px;
+      padding-bottom: 10px;
+    }
+    .tab {
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+    /* Hide desktop table */
+    table {
+      display: none;
+    }
+    /* Show exercises as cards */
+    .exercise-card {
+      background: #f7f7f7;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .exercise-card > div {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    .exercise-card label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 4px;
+    }
+    input.weight-input {
+      width: 100%;
+      max-width: none;
+      font-size: 18px;
+      padding: 10px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Programme Musculation</h1>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="content" id="content">
+  <!-- Contenu dynamique -->
+</div>
+
+<script>
+  const program = [
+    {
+      day: "Lundi",
+      type: "Haut du corps – Push",
+      exercises: [
+        { name: "Chest press (machine)", muscles: "Poitrine", weight: "15–30 kg", rest: "60–90 sec" },
+        { name: "Développé épaules guidé", muscles: "Épaules", weight: "10–20 kg", rest: "60–90 sec" },
+        { name: "Élévations latérales", muscles: "Épaules", weight: "4–8 kg", rest: "60–90 sec" },
+        { name: "Triceps poulie", muscles: "Triceps", weight: "10–20 kg", rest: "60–90 sec" },
+        { name: "Pompes (optionnel)", muscles: "Poitrine, triceps", weight: "Poids du corps", rest: "60–90 sec" }
+      ]
+    },
+    {
+      day: "Mardi",
+      type: "Jambes (1)",
+      exercises: [
+        { name: "Presse à cuisses", muscles: "Quadriceps, fessiers", weight: "40–80 kg", rest: "60–90 sec" },
+        { name: "Leg extension", muscles: "Quadriceps", weight: "20–40 kg", rest: "60–90 sec" },
+        { name: "Fentes avec haltères", muscles: "Quadriceps, fessiers", weight: "6–12 kg", rest: "60–90 sec" },
+        { name: "Mollets debout", muscles: "Mollets", weight: "20–40 kg", rest: "60–90 sec" },
+        { name: "Gainage", muscles: "Abdos", weight: "3x45 sec", rest: "60–90 sec" }
+      ]
+    },
+    {
+      day: "Mercredi",
+      type: "Repos / cardio léger",
+      exercises: [
+        { name: "Marche rapide, vélo ou rameur", muscles: "Cardio", weight: "20–30 min", rest: "—" },
+        { name: "Étirements", muscles: "Récupération", weight: "—", rest: "—" },
+        { name: "Crunchs sol (option)", muscles: "Abdos", weight: "—", rest: "—" }
+      ]
+    },
+    {
+      day: "Jeudi",
+      type: "Haut du corps – Pull",
+      exercises: [
+        { name: "Tractions strictes (3–4 séries)", muscles: "Dos, biceps", weight: "Poids du corps", rest: "90 sec" },
+        { name: "Rowing inversé (TRX ou barre basse)", muscles: "Dos", weight: "Poids du corps", rest: "60–75 sec" },
+        { name: "Curl biceps poulie", muscles: "Biceps", weight: "10–15 kg", rest: "60–75 sec" },
+        { name: "Curl marteau haltères", muscles: "Biceps", weight: "6–10 kg", rest: "60–75 sec" },
+        { name: "Hollow body hold (3x30 sec)", muscles: "Gainage", weight: "—", rest: "60–75 sec" }
+      ]
+    },
+    {
+      day: "Vendredi",
+      type: "Cardio + Abdos + Tractions",
+      exercises: [
+        { name: "Cardio", muscles: "Endurance", weight: "25–30 min", rest: "—" },
+        { name: "Crunchs, relevés de jambes, gainage", muscles: "Abdos", weight: "—", rest: "30–60 sec" },
+        { name: "3 séries tractions explosives ou négatives", muscles: "Explosivité", weight: "Poids du corps ou bande élastique", rest: "90 sec" }
+      ]
+    },
+    {
+      day: "Samedi",
+      type: "Jambes (2) – optionnel",
+      exercises: [
+        { name: "Leg curl", muscles: "Ischios", weight: "20–30 kg", rest: "60–90 sec" },
+        { name: "Soulevé de terre jambes tendues haltères", muscles: "Ischios, fessiers", weight: "10–20 kg", rest: "60–90 sec" },
+        { name: "Presse pieds haut", muscles: "Fessiers, quadriceps", weight: "40–70 kg", rest: "60–90 sec" },
+        { name: "Mollets assis", muscles: "Mollets", weight: "20–40 kg", rest: "60–90 sec" },
+        { name: "Gainage latéral", muscles: "Gainage", weight: "—", rest: "60–90 sec" }
+      ]
+    },
+    {
+      day: "Dimanche",
+      type: "Repos ou étirements",
+      exercises: [
+        { name: "Étirements + mobilité active", muscles: "Récupération", weight: "—", rest: "—" }
+      ]
+    }
+  ];
+
+  // Chargement des poids sauvegardés
+  const savedWeights = JSON.parse(localStorage.getItem('savedWeights')) || {};
+
+  function saveWeight(day, exerciseName, newWeight) {
+    if (!savedWeights[day]) savedWeights[day] = {};
+    savedWeights[day][exerciseName] = newWeight;
+    localStorage.setItem('savedWeights', JSON.stringify(savedWeights));
+  }
+
+  const tabsDiv = document.getElementById('tabs');
+  const contentDiv = document.getElementById('content');
+
+  let activeDayIndex = 0;
+
+  function renderTabs() {
+    tabsDiv.innerHTML = '';
+    program.forEach((p, i) => {
+      const tab = document.createElement('div');
+      tab.className = 'tab' + (i === activeDayIndex ? ' active' : '');
+      tab.textContent = p.day;
+      tab.title = p.type;
+      tab.addEventListener('click', () => {
+        activeDayIndex = i;
+        renderTabs();
+        renderContent();
+      });
+      tabsDiv.appendChild(tab);
+    });
+  }
+
+  function renderContent() {
+    contentDiv.innerHTML = '';
+    const dayProg = program[activeDayIndex];
+
+    const h2 = document.createElement('h2');
+    h2.textContent = `${dayProg.day} - ${dayProg.type}`;
+    contentDiv.appendChild(h2);
+
+    // Desktop table
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+      <tr>
+        <th>Exercice</th>
+        <th>Muscles ciblés</th>
+        <th>Poids / Durée</th>
+        <th>Temps de repos</th>
+      </tr>`;
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+
+    dayProg.exercises.forEach(ex => {
+      const tr = document.createElement('tr');
+
+      const tdName = document.createElement('td');
+      tdName.textContent = ex.name;
+      tr.appendChild(tdName);
+
+      const tdMuscles = document.createElement('td');
+      tdMuscles.textContent = ex.muscles;
+      tr.appendChild(tdMuscles);
+
+      const tdWeight = document.createElement('td');
+      const inputWeight = document.createElement('input');
+      inputWeight.type = 'text';
+      inputWeight.className = 'weight-input';
+      inputWeight.value = (savedWeights[dayProg.day] && savedWeights[dayProg.day][ex.name]) || ex.weight;
+      inputWeight.addEventListener('change', () => {
+        saveWeight(dayProg.day, ex.name, inputWeight.value);
+      });
+      tdWeight.appendChild(inputWeight);
+      tr.appendChild(tdWeight);
+
+      const tdRest = document.createElement('td');
+      tdRest.textContent = ex.rest;
+      tr.appendChild(tdRest);
+
+      tbody.appendChild(tr);
+    });
+    table.appendChild(tbody);
+    contentDiv.appendChild(table);
+
+    // Mobile cards
+    dayProg.exercises.forEach(ex => {
+      const card = document.createElement('div');
+      card.className = 'exercise-card';
+
+      const nameDiv = document.createElement('div');
+      nameDiv.innerHTML = `<label>Exercice :</label> ${ex.name}`;
+      card.appendChild(nameDiv);
+
+      const musclesDiv = document.createElement('div');
+      musclesDiv.innerHTML = `<label>Muscles ciblés :</label> ${ex.muscles}`;
+      card.appendChild(musclesDiv);
+
+      const weightDiv = document.createElement('div');
+      const weightLabel = document.createElement('label');
+      weightLabel.textContent = 'Poids / Durée :';
+      weightDiv.appendChild(weightLabel);
+
+      const inputWeightMobile = document.createElement('input');
+      inputWeightMobile.type = 'text';
+      inputWeightMobile.className = 'weight-input';
+      inputWeightMobile.value = (savedWeights[dayProg.day] && savedWeights[dayProg.day][ex.name]) || ex.weight;
+      inputWeightMobile.addEventListener('change', () => {
+        saveWeight(dayProg.day, ex.name, inputWeightMobile.value);
+      });
+      weightDiv.appendChild(inputWeightMobile);
+      card.appendChild(weightDiv);
+
+      const restDiv = document.createElement('div');
+      restDiv.innerHTML = `<label>Temps de repos :</label> ${ex.rest}`;
+      card.appendChild(restDiv);
+
+      contentDiv.appendChild(card);
+    });
+  }
+
+  renderTabs();
+  renderContent();
+
+</script>
+
+</body>
+</html>
