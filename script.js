@@ -1,4 +1,4 @@
-const appVersion = 'v1.2'; // ← change ce numéro quand tu modifies ton site
+const appVersion = 'v1.3'; // ← change ce numéro quand tu modifies ton site
 
 if (localStorage.getItem('appVersion') !== appVersion) {
   localStorage.clear(); // efface toutes les anciennes données locales
