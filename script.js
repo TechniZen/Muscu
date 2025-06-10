@@ -1,3 +1,16 @@
+const appVersion = 'v1.2'; // ← change ce numéro quand tu modifies ton site
+
+if (localStorage.getItem('appVersion') !== appVersion) {
+  localStorage.clear(); // efface toutes les anciennes données locales
+  localStorage.setItem('appVersion', appVersion); // enregistre la nouvelle version
+}
+
+
+
+
+
+
+
 const program = [
   {
     day: "Lundi",
@@ -155,3 +168,22 @@ function renderContent() {
 
 renderTabs();
 renderContent();
+
+const themeSwitch = document.getElementById('theme-switch');
+
+// Appliquer thème selon préférence enregistrée
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+  themeSwitch.checked = true;
+}
+
+// Écoute du switch
+themeSwitch.addEventListener('change', () => {
+  if (themeSwitch.checked) {
+    document.body.classList.add('dark');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.body.classList.remove('dark');
+    localStorage.setItem('theme', 'light');
+  }
+});
